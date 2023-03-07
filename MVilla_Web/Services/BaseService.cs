@@ -48,6 +48,7 @@ namespace MVilla_Web.Services
                 }
 
                 HttpResponseMessage apiResponse = null;
+
                 apiResponse = await client.SendAsync(message);
 
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();

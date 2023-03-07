@@ -20,7 +20,7 @@ namespace Villa_API.Data
                     Id=1,
                     Name="Royal Villa",
                     Details="The most precious Villa with spectacular views.",
-                    ImageUrl="https://dotnetmasteryimages.blog.core.windows.net/bluevillaimages/villa3.jpg",
+                    ImageUrl="https://dotnetmasteryimages.com/bluevillaimages/villa3.jpg",
                     Occupancy=5,
                     Rate=200,
                     Sqft=550,
