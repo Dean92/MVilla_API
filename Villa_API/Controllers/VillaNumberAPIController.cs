@@ -93,13 +93,13 @@ namespace Villa_API.Controllers
             {
                 if (await _dbVillaNumber.GetAsync(u => u.VillaNo == createDTO.VillaNo) != null)
                 {
-                    ModelState.AddModelError("CustomError", "Villa Number already Exists!");
+                    ModelState.AddModelError("ErrorMessage", "Villa Number already Exists!");
                     return BadRequest(ModelState);
                 }
 
                 if(await _dbVilla.GetAsync(u => u.Id == createDTO.VillaID) == null)
                 {
-                    ModelState.AddModelError("Custom Error", "Villa ID is Invalid!");
+                    ModelState.AddModelError("ErrorMessage", "Villa ID is Invalid!");
                     return BadRequest(ModelState);
                 }
 
@@ -136,13 +136,13 @@ namespace Villa_API.Controllers
             {
                 if (id == 0)
                 {
-                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    
                     return BadRequest(_response);
                 }
                 var villaNumber = await _dbVillaNumber.GetAsync(u => u.VillaNo == id);
                 if (villaNumber == null)
                 {
-                    _response.StatusCode = HttpStatusCode.NotFound;
+                    
                     return NotFound(_response);
                 }
                 await _dbVillaNumber.RemoveAsync(villaNumber);
@@ -161,7 +161,7 @@ namespace Villa_API.Controllers
         }
 
         [HttpPut("{id:int}", Name = "UpdateVillaNumber")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
         public async Task<ActionResult<APIResponse>> UpdateVillaNumber(int id, [FromBody] VillaNumberUpdateDTO updateDTO)
@@ -170,12 +170,12 @@ namespace Villa_API.Controllers
             {
                 if (updateDTO == null || id != updateDTO.VillaNo)
                 {
-                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    
                     return BadRequest(_response);
                 }
                 if (await _dbVilla.GetAsync(u => u.Id == updateDTO.VillaID) == null)
                 {
-                    ModelState.AddModelError("Custom Error", "Villa ID is Invalid!");
+                    ModelState.AddModelError("ErrorMessage", "Villa ID is Invalid!");
                     return BadRequest(ModelState);
                 }
 
@@ -196,37 +196,5 @@ namespace Villa_API.Controllers
             return _response;
 
         }
-
-        //[HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<IActionResult> UpdatePartialVillaNumber(int id, JsonPatchDocument<VillaNumberUpdateDTO> patchDTO)
-        //{
-        //    if (patchDTO == null || id == 0)
-        //    {
-        //        _response.StatusCode = HttpStatusCode.BadRequest;
-        //        return BadRequest(_response);
-        //    }
-        //    var villa = await _dbVillaNumber.GetAsync(u => u.VillaNo == id, tracked: false);
-
-        //    VillaNumberUpdateDTO villaNumberDTO = _mapper.Map<VillaNumberUpdateDTO>(villa);
-
-        //    if (villa == null)
-        //    {
-        //        _response.StatusCode = HttpStatusCode.BadRequest;
-        //        return BadRequest(_response);
-        //    }
-        //    patchDTO.ApplyTo(villaNumberDTO, ModelState);
-        //    VillaNumber model = _mapper.Map<VillaNumber>(villa);
-
-
-        //    await _dbVillaNumber.UpdateAsync(model);
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    return NoContent();
-        //}
     }
 }
