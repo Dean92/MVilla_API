@@ -3,6 +3,7 @@ using MVilla_Web.Models;
 using MVilla_Web.Models.Models;
 using MVilla_Web.Services.IService;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace MVilla_Web.Services
@@ -48,6 +49,11 @@ namespace MVilla_Web.Services
 				}
 
 				HttpResponseMessage apiResponse = null;
+
+				if (!string.IsNullOrEmpty(apiRequest.Token))
+				{
+					client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
+				}
 
 				apiResponse = await client.SendAsync(message);
 
