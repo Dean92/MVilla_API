@@ -61,7 +61,7 @@ namespace MVilla_Web.Services
 				try
 				{
 					APIResponse ApiResponse = JsonConvert.DeserializeObject<APIResponse>(apiContent);
-					if (ApiResponse != null && (apiResponse.StatusCode == System.Net.HttpStatusCode.BadRequest
+					if ( ApiResponse != null && (apiResponse.StatusCode == System.Net.HttpStatusCode.BadRequest
 						|| apiResponse.StatusCode == System.Net.HttpStatusCode.NotFound))
 					{
 						ApiResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
