@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using MVilla_Utility;
 using MVilla_Web.Models;
 using MVilla_Web.Models.Dto;
 using MVilla_Web.Services.IService;
@@ -23,7 +24,7 @@ namespace MVilla_Web.Controllers
 		{
 			List<VillaDTO> list = new();
 
-			var response = await _villaService.GetAllAsync<APIResponse>();
+			var response = await _villaService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
 			if (response != null && response.IsSuccess)
 			{
 				list = JsonConvert.DeserializeObject<List<VillaDTO>>(Convert.ToString(response.Result));

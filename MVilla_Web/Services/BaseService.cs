@@ -3,6 +3,7 @@ using MVilla_Web.Models;
 using MVilla_Web.Models.Models;
 using MVilla_Web.Services.IService;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace MVilla_Web.Services
@@ -49,13 +50,18 @@ namespace MVilla_Web.Services
 
 				HttpResponseMessage apiResponse = null;
 
+				if (!string.IsNullOrEmpty(apiRequest.Token))
+				{
+					client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
+				}
+
 				apiResponse = await client.SendAsync(message);
 
 				var apiContent = await apiResponse.Content.ReadAsStringAsync();
 				try
 				{
 					APIResponse ApiResponse = JsonConvert.DeserializeObject<APIResponse>(apiContent);
-					if (ApiResponse != null && (apiResponse.StatusCode == System.Net.HttpStatusCode.BadRequest
+					if ( ApiResponse != null && (apiResponse.StatusCode == System.Net.HttpStatusCode.BadRequest
 						|| apiResponse.StatusCode == System.Net.HttpStatusCode.NotFound))
 					{
 						ApiResponse.StatusCode = System.Net.HttpStatusCode.BadRequest;
